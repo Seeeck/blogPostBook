@@ -20,7 +20,7 @@ class EmailConfirmationController extends Controller
         }
 
         if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'EEl email ya ha sido verificado']);
+            return response()->json(['message' => 'El email ya ha sido verificado']);
         }
 
         $user->markEmailAsVerified();
@@ -30,10 +30,10 @@ class EmailConfirmationController extends Controller
     public function resend(Request $request)
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified.'], 400);
+            return response()->json(['message' => 'Email ya verificado'], 400);
         }
 
         $request->user()->sendEmailVerificationNotification();
-        return response()->json(['message' => 'Verification email resent']);
+        return response()->json(['message' => 'Email de verificación reenviado']);
     }
 }

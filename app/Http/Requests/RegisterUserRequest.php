@@ -20,24 +20,26 @@ class RegisterUserRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
 
-     //{field}_confirmation para confirmar
+    //{field}_confirmation para confirmar
     public function rules(): array
     {
         return [
-            "nombre" => "required|min:5|max:255",
+            "name" => "required|min:5|unique:users|max:255",
             "email" => "required|unique:users|max:60",
-            "password"=>"required|min:5|max:60|confirmed"
-   
+            "password" => "required|min:5|max:60|confirmed",
+            "password_confirmation" => "required|min:5|max:60"
+
         ];
     }
 
     public function messages(): array
     {
         return [
-            'nombre.required' => 'El nombre es requerido',
-            "nombre.min" => "Debe tener un mínimo de 5 carácteres",
-            "nombre.max" => "Debe tener un máximo de 60 carácteres",
-            "email.unique"=>"Debe ser un email único"
+            'name.required' => 'El nombre es requerido',
+            "name.min" => "Debe tener un mínimo de 5 carácteres",
+            "name.max" => "Debe tener un máximo de 60 carácteres",
+            "name.unique"=>"El nombre de usuario ya está registrado",
+            "email.unique" => "El email ya esta registrado"
         ];
     }
 }

@@ -68,20 +68,22 @@ class SanctumTest extends TestCase
        
 
         $response=$this->post("api/registrarUsuario",[
-            "nombre"=>"franco",
+            "name"=>"franco",
             "email"=>"francozc80@gmail.com",
             "password"=>"12345678910",
             "password_confirmation"=>"12345678910"
         ]);
 
         
-
+       
         
         $response->assertJsonStructure(["data"=>["name","email","updated_at","created_at","id"],"code"]);
 
        
 
     }
+
+    
 
    
 }
