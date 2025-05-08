@@ -12,14 +12,22 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
-
+//Autenticacion
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware("auth:sanctum")->post("/verifyToken", function (Request $request) {
+Route::middleware(("auth:sanctum"))->post("/logout", function (Request $request) {
 
-  
+    if ($request->user()->name == $request->username && $request->user()->email == $request->email) {
+        $request->user()->currentAccessToken()->delete();
+        return response()->json(["message" => "Sesión cerrada", "code" => 200], 200);
+    }else{
+        return response()->json(["message"=>"Error al cerrar sesión","code"=>401],401);
+    }
+});
+
+Route::middleware("auth:sanctum")->post("/verifyToken", function (Request $request) {
 
     if ($request->user()->name == $request->username && $request->user()->email == $request->email) {
 
@@ -33,7 +41,6 @@ Route::get('/login', function () {
     return response()->json(["message" => "Usuario no autenticado", "code" => 401], 401); // o una vista como view('auth.login')
 })->name('login');
 
-//Autenticacion
 Route::post("/login", [AuthController::class, "login"]);
 
 Route::post("/registrarUsuario", [AuthController::class, "registrarUsuario"]);
