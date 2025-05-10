@@ -5,14 +5,13 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmailConfirmationController;
-use App\Models\User;
-use GuzzleHttp\Psr7\Response;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\PostController;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+
 use Illuminate\Support\Facades\Route;
-//Autenticacion
+
+//Autenticación
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -22,8 +21,8 @@ Route::middleware(("auth:sanctum"))->post("/logout", function (Request $request)
     if ($request->user()->name == $request->username && $request->user()->email == $request->email) {
         $request->user()->currentAccessToken()->delete();
         return response()->json(["message" => "Sesión cerrada", "code" => 200], 200);
-    }else{
-        return response()->json(["message"=>"Error al cerrar sesión","code"=>401],401);
+    } else {
+        return response()->json(["message" => "Error al cerrar sesión", "code" => 401], 401);
     }
 });
 
@@ -52,3 +51,6 @@ Route::get('/email/verify', function () {
 
 Route::get('/email/verify/{id}/{hash}', [EmailConfirmationController::class, "verify"])
     ->middleware(['signed'])->name('verification.verify');
+//Posts
+
+Route::middleware("auth:sanctum")->post("/registrarPost", [PostController::class, "registrarPost"]);
