@@ -54,3 +54,4 @@ Route::get('/email/verify/{id}/{hash}', [EmailConfirmationController::class, "ve
 //Posts
 
 Route::middleware("auth:sanctum")->post("/registrarPost", [PostController::class, "registrarPost"]);
+Route::middleware(("auth:sanctum"))->get("/obtenerPosts",[PostController::class,"obtenerPosts"]);

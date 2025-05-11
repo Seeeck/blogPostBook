@@ -16,15 +16,15 @@ class EmailConfirmationController extends Controller
         $user = User::findOrFail($id);
       
         if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return response()->json(['message' => 'link de verificación inválido'], 400);
+            return "link de verificación inválido";
         }
 
         if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'El email ya ha sido verificado']);
+            return "El email ya ha sido verificado";
         }
 
         $user->markEmailAsVerified();
-        return response()->json(['message' => 'Email verificado exitosamente']);
+        return "Email verificado exitosamente";
     }
 
     public function resend(Request $request)

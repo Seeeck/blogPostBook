@@ -23,6 +23,7 @@ class SavePostRequest extends FormRequest
     {
         return [
             "mensaje" => "required|min:5|max:255",
+            "imagen"=>"nullable"
         ];
     }
 

@@ -44,4 +44,19 @@ class PostController extends Controller
             return response()->json(["message" => "Error al", "code" => 500], 500);
         }
     }
+
+    public function obtenerPosts(Request $request)
+    {
+        try {
+            //por cada post devolver el nombre de usuario
+          
+            $data = DB::table("posts")
+            ->join("users","users.id","=","posts.user_id")
+            ->select("posts.*","users.name")
+            ->orderBy("posts.created_at", "desc")->paginate(5);
+            return response()->json(["message" => "Publicaciones cargadas", "data" => $data, "code" => 200], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => "Error al obtener publicaciones", "code" => 500], 500);
+        }
+    }
 }
